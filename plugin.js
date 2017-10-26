@@ -2,6 +2,7 @@
     $.fn.inner_float = function(options) {
         var defaults = {
             top:'10px',
+            topValue: 0
         };
         var settings = $.extend(defaults, options);
 
@@ -10,22 +11,44 @@
 
         var childHeight = child.height();
        	var parentTop = parent.offset().top;
+       	var childTop = child.offset().top;
        	var parentHeight = parent.height();
+
+
+       	//get value of settings.top
+       	var pos = settings.top.search("px");
+		var topVal = settings.top.slice(0, pos);
+		
+		settings.topValue = topVal;
 
        	child.function1();
 
         $(window).scroll(function(){
 		    var scrollTop=$(this).scrollTop();
-		   
-		    if(scrollTop < parentTop) {
-		    	child.function1();
-		    }
-		    else if(scrollTop < (parentTop + parentHeight - childHeight - 10) ) {
-		    	child.function2(settings);
-		    }
-		    else {
-		    	child.function3();
-		    }
+		   	if(settings.topValue <=10) {
+			    if(scrollTop < parentTop) {
+			    	child.function1();
+			    }
+			    else if(scrollTop < (parentTop + parentHeight - childHeight - 10) ) {
+			    	child.function2(settings);
+			    }
+			    else {
+			    	child.function3();
+			    }
+			}
+			else{
+				if(scrollTop < (childTop - settings.topValue)) {
+			    	child.function1();  	
+			    }
+			    else if(scrollTop < (parentTop + parentHeight - childHeight - 10 - settings.topValue) ) {
+			    	child.function2(settings);
+			    	console.log('b');
+			    }
+			    else {
+			    	child.function3();
+			    	console.log('c');
+			    }
+			}   
 		 });
 
         return this;
@@ -37,7 +60,7 @@
     		'top' : '10px',
     		'bottom': ''
     	}	
-    	
+
     	this.css(cssObj);
     }
 
