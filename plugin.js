@@ -15,41 +15,55 @@
        	var parentHeight = parent.height();
 
 
-       	//get value of settings.top
-       	var pos = settings.top.search("px");
-		var topVal = settings.top.slice(0, pos);
-		
+       	//get value of settings.top       	
+		var topVal = function4(settings.top);	
 		settings.topValue = topVal;
 
-       	child.function1();
+       	child.fixTop();
+
+       	var padding = function4(child.css('top'));
 
         $(window).scroll(function(){
 		    var scrollTop=$(this).scrollTop();
-				if(scrollTop < (childTop - settings.topValue)) {
-			    	child.function1();  	
+		    console.log(scrollTop + " - " + (parentTop + parentHeight - childHeight - padding));
+		   	if(settings.topValue <= padding) {
+			    if(scrollTop < parentTop) {
+			    	child.fixTop();
 			    }
-			    else if(scrollTop < (parentTop + parentHeight - childHeight - 10 - settings.topValue) ) {
-			    	child.function2(settings);
+			    else if(scrollTop < (parentTop + parentHeight - childHeight - padding) ) {
+			    	child.fixBrowser(settings);
 			    }
 			    else {
-			    	child.function3();
-			    }	  
+			    	child.fixBot();
+			    }
+			}
+			else{
+				if(scrollTop < (childTop - settings.topValue)) {
+			    	child.fixTop();  	
+			    }
+			    else if(scrollTop < (parentTop + parentHeight - childHeight - padding - settings.topValue) ) {
+			    	child.fixBrowser(settings);
+			    }
+			    else {
+			    	child.fixBot();
+			    }
+			}   
 		 });
 
         return this;
     }
 
-    $.fn.function1 = function() {
+    $.fn.fixTop = function() {
     	var cssObj = {
     		'position' : 'absolute',
-    		'top' : '10px',
+    		'top' : '30px',
     		'bottom': ''
     	}	
 
     	this.css(cssObj);
     }
 
-    $.fn.function2 = function(settings) {
+    $.fn.fixBrowser = function(settings) {
     	var cssObj = {
     		'position' : 'fixed',
     		'top' : settings.top,
@@ -59,13 +73,20 @@
     	this.css(cssObj);
     }
 
-    $.fn.function3 = function() {
+    $.fn.fixBot = function() {
     	var cssObj = {
     		'position' : 'absolute',
     		'top' : '',
-    		'bottom': '10px'
+    		'bottom': '30px'
     	}	
 
     	this.css(cssObj);
+    }
+
+    var function4 = function(string) {
+    	var pos = string.search("px");
+		var val = string.slice(0, pos);
+
+		return val;	
     }
 }( jQuery ));
