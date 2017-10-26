@@ -25,30 +25,15 @@
 
         $(window).scroll(function(){
 		    var scrollTop=$(this).scrollTop();
-		   	if(settings.topValue <=10) {
-			    if(scrollTop < parentTop) {
-			    	child.function1();
-			    }
-			    else if(scrollTop < (parentTop + parentHeight - childHeight - 10) ) {
-			    	child.function2(settings);
-			    }
-			    else {
-			    	child.function3();
-			    }
-			}
-			else{
 				if(scrollTop < (childTop - settings.topValue)) {
 			    	child.function1();  	
 			    }
 			    else if(scrollTop < (parentTop + parentHeight - childHeight - 10 - settings.topValue) ) {
 			    	child.function2(settings);
-			    	console.log('b');
 			    }
 			    else {
 			    	child.function3();
-			    	console.log('c');
-			    }
-			}   
+			    }	  
 		 });
 
         return this;
