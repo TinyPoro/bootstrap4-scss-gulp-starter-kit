@@ -1,7 +1,7 @@
 (function ( $ ) {
     $.fn.inner_float = function(options) {
         var defaults = {
-            top:'10px'
+            top:'10px',
         };
         var settings = $.extend(defaults, options);
 
@@ -32,20 +32,32 @@
     }
 
     $.fn.function1 = function() {
-    	this.css('position', 'absolute');
-		this.css('top', '10px');
-		this.css('bottom', '');
+    	var cssObj = {
+    		'position' : 'absolute',
+    		'top' : '10px',
+    		'bottom': ''
+    	}	
+    	
+    	this.css(cssObj);
     }
 
     $.fn.function2 = function(settings) {
-    	this.css('position', 'fixed');
-		this.css('top', settings.top);
-		this.css('bottom', '');
+    	var cssObj = {
+    		'position' : 'fixed',
+    		'top' : settings.top,
+    		'bottom': ''
+    	}	
+
+    	this.css(cssObj);
     }
 
     $.fn.function3 = function() {
-    	this.css('position', 'absolute');
-		this.css('top', '');
-		this.css('bottom', '10px');
+    	var cssObj = {
+    		'position' : 'absolute',
+    		'top' : '',
+    		'bottom': '10px'
+    	}	
+
+    	this.css(cssObj);
     }
 }( jQuery ));
