@@ -4,14 +4,14 @@ var request = require('request');
 
 http.createServer(function (req, res) {
 	res.writeHead(200, {"Content-Type": "application/json"});
-    
+    var test = 4;
 	//split params
     var parts = url.parse(req.url, true);
   	var query = parts.query;
     
     var u;
     var r;
-    var s
+    var s;
 
     if('url' in query) {
     	u = query.url;
@@ -38,7 +38,7 @@ http.createServer(function (req, res) {
     	}
 
     	if(reqArr) {
-    		reqArr.forEach(async function(element) {
+    		reqArr.forEach(function(element) {
     			if(element == 'header') {
     				obj.data[""+element] = req.headers;
     			}
@@ -48,31 +48,34 @@ http.createServer(function (req, res) {
     			}
 
     			if(element == 'html') {
-    				getHtml(u, function(body) {
-    					console.log(body);
-    				})
-    				obj.data[""+element] = x + "a";
-    			}
+    			// 	request(u,function(err, response, body) {
+				  	// 	if(err) {
+				  	// 		obj.data[""+element] = err;
+				  	// 	}
+				  	// 	else {
+				  	// 		obj.data[""+element] = body;
+				  	// 	}
 
+				  	// 	var json = JSON.stringify(obj);
+  					// 	res.end(json);
+				  	// }); 	
+    			}		
 			});
     	}   	
     }
-    else obj = {
-    	success : false,
-  		message : 'Không thể khởi động selenium/phantomjs/puppetee'
-    }
+    else {
+    	obj = {
+	    	success : false,
+	  		message : 'Không thể khởi động selenium/phantomjs/puppetee'
+	    }
+
+    // 	var json = JSON.stringify(obj);
+  		// res.end(json);
+    } 
+
+    var json = JSON.stringify(obj);
+  		res.end(json);
     
-  	var json = JSON.stringify(obj);
-
-  	res.end(json);
+  	
 }).listen(8080);
-
-function getHtml(url, cb) {
-	request("" + url,function(err, res, body) {
-  		if(err) {
-  			
-  		}
-  		cb(body);
-  	}); 
-}
 
